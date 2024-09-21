@@ -46,7 +46,83 @@ li {
 }
 
 /****** Header ******/
-#top
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--background-color);
+}
+
+.siteName a,
+#tools a {
+  text-decoration: none;
+  color: black;
+}
+
+.siteName {
+  font-size: 2.5rem;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  text-decoration: none;
+  color: black;
+}
+
+#tools {
+  font-family: "Spectral SC", serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1.15rem;
+  text-decoration: none;
+  color: black;
+}
+
+/****** navigation ******/
+
+nav {
+  background-color: black;
+  color: white;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-evenly;
+  height: 40px;
+  list-style: none;
+  align-items: center;
+  padding: 0px;
+}
+
+nav a {
+  padding: 5px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #000;
+  background-color: #fff;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
+
+/****** Hero ******/
+.hero {
+  background-color: #ffffff;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+
+
+
 
 
 

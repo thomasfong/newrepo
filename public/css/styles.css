@@ -465,7 +465,7 @@ td {
 .form-group input:focus:invalid,
 textarea:focus:invalid {
   background-color: rgb(255, 188, 188);
-  background-image: url("/public/images/site/invalid.png");
+  background-image: url("/images/site/invalid.png");
   background-size: 16px 16px;
   background-position: right top;
   background-repeat: no-repeat;
@@ -604,7 +604,7 @@ fieldset {
 
 @media (min-width: 1025px) {
   :root {
-    background-image: url("/public/images/site/checkerboard_sq.jpg");
+    background-image: url("/images/site/checkerboard.jpg");
     background-size: auto auto;
     background-repeat: repeat;
   }

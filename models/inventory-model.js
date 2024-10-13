@@ -1,6 +1,8 @@
 /* ***************************
  *  Get all inventory items and classification_name by classification_id
  * ************************** */
+
+
 async function getInventoryByClassificationId(classification_id) {
   try {
     const data = await pool.query(
@@ -17,3 +19,4 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 module.exports = {getClassifications, getInventoryByClassificationId};
+

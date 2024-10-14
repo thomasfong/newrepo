@@ -27,7 +27,7 @@ app.use(require("./routes/static"))
 // Index route
 app.get("/", baseController.buildHome)
 // Inventory routes
-app.use("/inv", require("./routes/inventory-route"))
+app.use("/inv", require("./routes/inventoryRoute"))
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

@@ -1,0 +1,1 @@
+<form id="loginForm" action="/account/login" method="post">

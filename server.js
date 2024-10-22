@@ -10,12 +10,14 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const accountController = require("./controllers/accountController")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities")
 const session = require("express-session")
 const pool = require('./database/')
-const cookieParser = require("cookie-parser")
+
+
 /* ***********************
  * Middleware
  * ************************/
@@ -43,7 +45,7 @@ app.use(function(req, res, next){
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
-app.use(cookieParser())
+
 
 
 /* ***********************
@@ -54,6 +56,8 @@ app.use(require("./routes/static"))
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", require("./routes/inventoryRoute"))
+// Account routes - Unit 4, activity
+app.use("/account", require("./routes/accountRoute"))
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

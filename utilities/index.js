@@ -1,6 +1,5 @@
 const invModel = require("../models/inventory-model")
 const router = require("../routes/static")
-const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Util = {}
 

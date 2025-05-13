@@ -4,3 +4,32 @@
 *:after {
   box-sizing: border-box;
 }
+
+/* Custom CSS Variables */
+:root {
+  --primary-color: #1f91ee;
+  --secondary-color: #b40003;
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --border-color: #1f91ee;
+  --hover-bg-color: #0056b3;
+  --active-color: #004085;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 0.75rem;
+  margin: 15px auto;
+  padding: 10px;
+  background-color: var(--background-color);
+}
+
+h1,h2 {
+  font-family: "Patua One", serif;
+  font-weight: 400;
+  font-style: normal;
+}

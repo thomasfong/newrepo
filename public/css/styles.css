@@ -28,11 +28,7 @@ body {
   background-color: var(--background-color);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h1,h2,h3,h4,h5 {
   font-family: "Patua One", serif;
   font-weight: 400;
   font-style: normal;
@@ -69,8 +65,7 @@ li {
   background-color: var(--background-color);
 }
 
-.siteName a,
-#tools a {
+.siteName a, #tools a {
   text-decoration: none;
   color: black;
 }
@@ -178,7 +173,7 @@ nav a:hover {
 
 .upgrades {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr ;
   gap: 1rem;
   grid-column: 1;
   grid-row: 1;

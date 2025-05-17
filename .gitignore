@@ -15,5 +15,5 @@ node_modules
 # .DS_Store is only for Mac users
 **/.DS_Store
 
-#Readme.md is a file that contains information
+# Readme.md is a file that contains information
 README.md

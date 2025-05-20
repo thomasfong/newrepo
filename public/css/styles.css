@@ -12,7 +12,7 @@ aside {
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 200px;
-  top: 135px;
+  top: 170px;
   font-weight: bold;
   font-size: 0.9rem;
   color: darkgreen;
@@ -142,14 +142,45 @@ nav ul li a:hover {
 
 /* Media Query for mobile devices (max-width: 768px) */
 @media (max-width: 768px) {
+  .nav-bar {
+    background-color: black;
+    text-align: center;
+    padding: 10px 0;
+  }
+
   .nav-bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     flex-direction: column;
-    display: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
   }
 
   .nav-bar.active ul {
     display: flex;
   }
+
+  /* Style for the navigation links */
+.nav-bar ul li a {
+    text-decoration: none;
+    color: white; /* White lettering */
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* Style for the menu toggle button */
+.menu-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    display: none; 
+}
+
 
   .menu-toggle {
     display: block;
@@ -164,11 +195,33 @@ nav ul li a:hover {
   }
 }
 
+  @media (max-width: 768px) {
+  .upgrade-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .nav-bar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    .menu-toggle {
+        display: block;
+    }
+}
 /* Media Query for larger devices (1024px and up) */
 @media only screen and (min-width: 1024px) {
   .content-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+.container {
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+}
 
   header, footer {
     padding: 30px;

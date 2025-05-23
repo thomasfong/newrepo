@@ -4,56 +4,113 @@
     --font-family: 'Roboto', sans-serif;
 }
 
-/* Aside styles */
-aside {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 1rem;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 200px;
-  top: 170px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: darkgreen;
-}
-
-button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-}
-
-figcaption {
-  text-align: center; 
-  text-decoration: underline; 
-  margin-top: 8px; 
-  font-weight: bold; 
-}
-
-figure {
-  display: block;
-  text-align: center; 
-  box-sizing: border-box;
-  margin: 0 auto;
-  background-color: lightblue;
-  padding: 10px;
-}
-
-/* Base styles for mobile/small devices */
+/* Base Styles */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
-  line-height: 1.6;
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
 }
 
 .container {
-  width: 100%;
-  padding: 15px;
-  box-sizing: border-box;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header, .footer {
+    background-color: #333;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Navigation styles */
+.nav-bar ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 20px;
+    padding: 0;
+}
+
+.nav-bar li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-bar li a:hover {
+    color: #f1c40f; 
+}
+
+/* Content styles */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.welcome-section {
+    position: relative;
+}
+
+.car-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+}
+
+.car-description {
+    position: absolute;
+    top: 20%;
+    left: 55%;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.upgrade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    text-align: center;
+}
+
+.upgrade-image {
+    width: 100%;
+    height: auto;
+    max-width: 100px;
+    margin: auto;
+}
+
+figcaption {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Responsive Tweaks */
+@media(max-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .car-description {
+        position: static;
+        margin-top: 1rem;
+        text-align: left;
+    }
 }
 
 /* Header and Footer styles */
@@ -78,10 +135,33 @@ nav li {
   border-bottom: 1px solid #ddd;
 }
 
+.nav-bar ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav-bar li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }
+
+  .nav-bar li a:hover {
+    color: #f1c40f; 
+  }
+
+  .nav-bar.active ul {
+    display: flex;
+  }
+
 main {
   padding: 15px;
   background-color: #bed6f7;
-
 }
 
 .content-section {
@@ -97,136 +177,3 @@ main {
   gap: 1rem;
 }
 
-/* Media Query for tablets and larger (768px and up) */
-@media only screen and (min-width: 768px) {
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  nav {
-  background-color: black;
-  text-align: center; 
-  padding: 15px 0; 
-}
-
-nav ul {
-  list-style: none; 
-  padding: 0;
-  display: flex;
-  justify-content: center; 
-  gap: 20px; 
-}
-
-nav ul li {
-  display: inline-block;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: white; 
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px 15px;
-}
-
-nav ul li a:hover {
-  color: #f1c40f; 
-}
-  .content-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-}
-
-/* Media Query for mobile devices (max-width: 768px) */
-@media (max-width: 768px) {
-  .nav-bar {
-    background-color: black;
-    text-align: center;
-    padding: 10px 0;
-  }
-
-  .nav-bar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .nav-bar.active ul {
-    display: flex;
-  }
-
-  /* Style for the navigation links */
-.nav-bar ul li a {
-    text-decoration: none;
-    color: white; /* White lettering */
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px;
-}
-
-/* Style for the menu toggle button */
-.menu-toggle {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    display: none; 
-}
-
-
-  .menu-toggle {
-    display: block;
-    background: black;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-  }
-
-  .content-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-  @media (max-width: 768px) {
-  .upgrade-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Responsive design */
-@media screen and (max-width: 768px) {
-    .nav-bar ul {
-        flex-direction: column;
-        align-items: center;
-    }
-    .menu-toggle {
-        display: block;
-    }
-}
-/* Media Query for larger devices (1024px and up) */
-@media only screen and (min-width: 1024px) {
-  .content-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-.container {
-  width: 100%;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-  header, footer {
-    padding: 30px;
-  }
-}
-
-
-  

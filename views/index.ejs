@@ -1,87 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <%- include('partials/head') %>
-        <%- include('partials/header') %>
-        <title>CSE Motors</title>
-        <link rel="stylesheet" href="/public/css/styles.css">
-    </head>
+<head>
+    <title>CSE Motors</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <%- include('partials/head') %>
+</head>
     
 <body>
-  <main>
-    <nav>
-        <%- include('partials/navigation') %>
-    </nav>
-    
-            <div class="content-grid">
-                <div class="content-section">
-                    <h2>Welcome to CSE Motors!</h2>
+    <header class="header">
+        <%- include('partials/header') %>
+    </header>
 
-                    <img src="/public/images/vehicles/delorean.jpg" alt="DMC Delorean" class="car-image">
+<nav class="navbar">
+    <%- include('partials/navigation') %>
+</nav>
+
+<main class="container">
+    <section class="content-grid">
+        <div class="content=grid">
+            <h2>Welcome to CSE Motors!</h2>
+            <img src="/images/vehicles/delorean.jpg" alt="DMC Delorean" class="car-image">
+            <aside class="car-description">
+                <p><strong>DMC Delorean</strong></p>
+                <p>3 Cup holders</p>
+                <p>Superman doors</p>
+                <p>Fuzzy dice!</p>
+                <button>Own Today</button>
+            </aside>  
+        </div>
         
-             <aside class="car-description">
-                    <p>DMC Delorean</p>
-                    <p>3 Cup holders</p>
-                    <p>Superman doors</p>
-                    <p>Fuzzy dice!</p>
-                    <button>Own Today</button>
-            </aside>   
-
-            <section class="review-section">
+        <section class="content-section review-section">
             <h2>DMC Delorean Review</h2>
-                <ul>
-                    <li>"So fast it's almost like travelling in time." (4/5)</li>
-                    <li>"Coolest ride on the road." (4/5)</li>
-                    <li>"I'm feeling McFly?" (4/5)</li>
-                    <li>"The most futuristic ride of our day." (4.5/5)</li>
-                    <li>"80's livin' and I love it!" (5/5)</li>
-                </ul>
-            </section>
-                
-                <h2>Delorean Upgrades</h2>
-                <div class="upgrade-grid">
-                    <div class="upgrade-item">
-                        <figure>
-                            <div>
-                                <img src="/public/images/upgrades/flux-cap.png" alt="Flux Capacitor" class="upgrade-image">
-                                <figcaption>Flux Capacitor</figcaption>
-                            </div>
-                        </figure>
-                    </div>
+            <ul>
+                <li>"So fast it's almost like travelling in time." (4/5)</li>
+                <li>"Coolest ride on the road." (4/5)</li>
+                <li>"I'm feeling McFly?" (4/5)</li>
+                <li>"The most futuristic ride of our day." (4.5/5)</li>
+                <li>"80's livin' and I love it!" (5/5)</li>
+            </ul>
+        </section>
 
-                    <div class="upgrade-item">
-                        <figure>
-                            <div>
-                                <img src="/public/images/upgrades/flame.jpg" alt="Flame Decal" class="upgrade-image">
-                                <figcaption>Flame Decal</figcaption>
-                            </div>
-                        </figure>           
-                    </div>
-
-                    <div class="upgrade-item">
-                        <figure>
-                            <div>
-                                <img src="/public/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker" class="upgrade-image">
-                                <figcaption>Bumper Sticker</figcaption>
-                            </div>
+        <section class="content-section upgrades-section">
+            <h2>Delorean Upgrades</h2>
+            <div class="upgrade-grid">
+                <% const upgrades = [
+                        {img: 'flux-cap.png', alt: 'Flux Capacitor', caption: 'Flux Capacitor'},
+                        {img: 'flame.jpg', alt: 'Flame Decal', caption: 'Flame Decals'},
+                        {img: 'bumper_sticker.jpg', alt: 'Bumper Sticker', caption: 'Bumper Stickers'},
+                        {img: 'hub-cap.jpg', alt: 'Hub Cap', caption: 'Hub Caps'}
+                    ]; %>
+                    <% upgrades.forEach(u => { %>
+                        <figure class="upgrade-item">
+                            <img src="/images/upgrades/<%= u.img %>" alt="<%= u.alt %>" class="upgrade-image">
+                            <figcaption><%= u.caption %></figcaption>
                         </figure>
-                    </div>
-
-                    <div class="upgrade-item">
-                        <figure>
-                            <div>
-                                <img src="/public/images/upgrades/hub-cap.jpg" alt="Hub Cap" class="upgrade-image">
-                                <figcaption>Hub Caps</figcaption>
-                            </div>
-                        </figure>
-                    </div>
+                    <% }) %>
                 </div>
-    <footer>
-        <!-- Footer content included below -->
+            </section>
+        </section>
+    </main>
+
+    <footer class="footer">
         <%- include('partials/footer') %>
     </footer>
-    </div>
-    </div>
-    </main>
 </body>
 </html>

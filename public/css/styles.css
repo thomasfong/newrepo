@@ -150,3 +150,9 @@ figcaption {
         gap: 10px;
     }
 }
+
+/* Error message styles */
+.error-message {
+    color: red;
+    font-weight: bold;
+}

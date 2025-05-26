@@ -28,49 +28,57 @@
     font-family: "Roboto", sans-serif;
     box-sizing: border-box;
   }
+
   #top-header{
     display: flex;
     justify-content: space-between;
     padding: 2rem;
   }
+
   .siteName a{
     color: var(--mporipori-color);
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
   }
+
   #tools a{
     text-decoration: none;
     font-size: 16px;
     font-weight: 400;
     color: var(--mporipori-color);
   }
+  
   nav{
     background-color: var(--color-primary-variant);
     padding: 1rem;
-    
-  
   }
+
   nav ul {
     display: flex;
     justify-content: space-around;
   }
+
   nav ul li {
     list-style: none;
     color: var(--color-white);
   }
+
   nav ul li a {
     color: var(--color-white);
     text-decoration: none;
     font-size: 16px;
   }
+
   nav ul li a:hover{
     background-color: var(--color-bg);
     padding: .7rem;
   }
+
   .message{
    margin: 10px 20px;
   }
+
   .container{
     background-image: url('../images/vehicles/adventador.jpg');
     background-repeat: no-repeat;
@@ -78,18 +86,20 @@
     height: 500px;
     display: grid;
     grid-template-columns: repeat(2,1fr);
-   
   }
+
   .header-left{
     margin: 30px 60px;
     background-color: #E6ECEF;
     text-align: center;
     margin-top: 20%; 
   }
+
   .header-left p{
     margin-top: 2rem;
     line-height: 1.5rem;
   }
+
   .container_fluid{
     display: grid;
     grid-template-columns: repeat(2,1fr);
@@ -101,23 +111,28 @@
     font-weight: 500;
     margin: 10px 30px;
   }
+
   .img{
     margin-top: 2rem;
   }
+
   .wrappers{
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: 2rem;
   }
+
   .content{
    margin-top: 2rem;
    background-color: var(--color-primary-variant);
   }
+
   .content img,p{
     display: block;
     margin: 20px 30px;
     padding: 1.5rem;
   }
+
   .content p a{
     color: var(--color-white);
   }
@@ -131,37 +146,45 @@
     padding: 2rem;
     color: var(--color-white);
   }
+
   #inv-display{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     margin: 20px 40px;
     gap: 2rem;
   }
+
   #inv-display li{
     list-style: none;
     background-color: var(--color-bg);
     margin: 20px 40px;
     padding: 2rem;
   }
+
   #inv-display li img{
    width: 200px;
    height: 200px;
   }
+
   .namePrice{
     line-height: 2rem;
     color: var(--color-white);
   }
+
   #inv-display li a{
     line-height: 2rem;
     text-decoration: none;
     color: var(--color-white);
   }
+
   #inv-display li a:hover{
     color: var(--color-primary-variant);
   }
+
   #inv-display hr{
     width: 100px;
   }
+
   /* Mobile devices (portrait and smaller) */
   @media (max-width: 768px) {
     .container_fluid {

@@ -10,7 +10,7 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
-
+/* const utilities = require("./utilities") */
 
 /* ***********************
  * View Engine and Templates
@@ -25,23 +25,35 @@ app.set("layout", "./layouts/layout") // not at views root
  *************************/
 app.use(static)
 // Index route
-app.get("/", function(req, res) {
-  res.render("index", { title: "Home" })
-})
+// app.get("/", function(req, res) {
+//  res.render("index", { title: "Home" })
+// })
+
+/ app.get("/", function(req, res) {
+  res.render("index", {
+     title: "Home",
+     imagePath: "/images/site/own_today.png", // Define and pass imagePath
+     imagePath1: "/images/upgrades/flux-cap.png",
+     imagePath2: "/images/upgrades/flame.jpg",
+     imagePath3: "/images/upgrades/bumper_sticker.jpg",
+     imagePath4: "/images/upgrades/hub-cap.jpg"
+   })
+ })
+
 
 /* ***********************
 * Express Error Handler
 * Place after all other middleware
 *************************/
-app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
+/* app.use(async (err, req, res, next) => {
+//  let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
   res.render("errors/error", {
     title: err.status || 'Server Error',
     message: err.message,
     nav
   })
-})
+})  */
 
 /* ***********************
  * Local Server Information

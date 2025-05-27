@@ -1,8 +1,12 @@
-<% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Error</title>
+</head>
+<body>
+    <h1>Oops! Something went wrong.</h1>
+    <p><%= errorMessage %></p>
+    <a href="/">Go Home</a>
+</body>
+</html>
 
-    
-   <%-message %>

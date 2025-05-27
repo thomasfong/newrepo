@@ -19,4 +19,11 @@ async function buildHome(req, res, next) {
 
 module.exports = { buildHome };
 
+exports.triggerError = (req, res, next) => {
+  next(new Error("Intentional footer-based error triggered!"));
+};
+
+exports.triggerError = (req, res, next) => {
+  next(new Error("Intentional footer-based error triggered!"));
+};
 

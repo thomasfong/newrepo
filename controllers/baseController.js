@@ -1,5 +1,7 @@
 const utilities = require("../utilities/");
 
+const baseController ={};
+
 async function buildHome(req, res, next) {
   try {
     let nav = await utilities.getNav(); // Fetch navigation data
@@ -17,13 +19,13 @@ async function buildHome(req, res, next) {
   }
 }
 
+/* *********************************
+ * Task 3 Trigger a 500 Server Error
+ * ****************************** */
+baseController.triggerError = async function (req, res, next) {
+  throw new Error("500 Server Error")  
+}
+
 module.exports = { buildHome };
 
-exports.triggerError = (req, res, next) => {
-  next(new Error("Intentional footer-based error triggered!"));
-};
-
-exports.triggerError = (req, res, next) => {
-  next(new Error("Intentional footer-based error triggered!"));
-};
 

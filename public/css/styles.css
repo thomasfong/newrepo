@@ -139,7 +139,7 @@
   }
   #inv-display li{
     list-style: none;
-    background-color: var(--color-bg);
+    background-color: var(--color-primary-variant);
     margin: 20px 40px;
     padding: 2rem;
   }
@@ -157,7 +157,7 @@
     color: var(--color-white);
   }
   #inv-display li a:hover{
-    color: var(--color-primary-variant);
+    color: var(--color-bg);
   }
   #inv-display hr{
     width: 100px;
@@ -231,7 +231,7 @@
 .cta-button {
   display: inline-block;
   padding: 0.8rem 1.5rem;
-  background-color: var(--color-bg);
+  background-color: var(--color-primary-variant);
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
@@ -243,7 +243,7 @@
 
 .cta-button:hover,
 .cta-button:focus {
-  background-color: var(--color-gray-700);
+  background-color: var(--color-bg);
   outline-offset: 2px;
 }
 

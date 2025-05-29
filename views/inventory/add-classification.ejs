@@ -1,39 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Add Classification</title>
-  <script>
+<meta charset="UTF-8" />
+<title>Add Classification</title>
+<script>
     function validateForm() {
-      const name = document.forms["addClassificationForm"]["classification_name"].value;
-      const regex = /^[a-zA-Z0-9]+$/;
-      if (!regex.test(name)) {
+        const name = document.forms["addClassificationForm"]["classification_name"].value;
+        const regex = /^[a-zA-Z0-9]+$/;
+        if (!regex.test(name)) {
         alert("Classification name must not contain spaces or special characters.");
         return false;
-      }
-      return true;
+    }      
+    return true;
     }
-  </script>
+</script>
 </head>
 <body>
-  <h1>Add Classification</h1>
-
-  <% if (message) { %>
+    <h1>Add Classification</h1>
+    <% if (message) { %>
     <div class="flash"><%= message %></div>
-  <% } %>
-
-  <% if (errors && errors.length > 0) { %>
+    <% } %>
+    
+    % if (errors && errors.length > 0) { %>
     <ul class="errors">
-      <% errors.forEach(err => { %>
-        <li><%= err.msg %></li>
-      <% }) %>
+    <% errors.forEach(err => { %>
+    <li><%= err.msg %></li>
+    <% }) %>
     </ul>
-  <% } %>
+    <% } %>
 
-  <form name="addClassificationForm" action="/inv/add-classification" method="post" onsubmit="return validateForm()">
+<form name="addClassificationForm" action="/inv/add-classification" method="post" onsubmit="return validateForm()">
     <label for="classification_name">Classification Name</label>
     <input type="text" id="classification_name" name="classification_name" required>
     <button type="submit">Add</button>
-  </form>
+</form>
 </body>
 </html>

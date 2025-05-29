@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Add Inventory</title>
-  <script>
+<meta charset="UTF-8" />
+<title>Add Inventory</title>
+<script>
     function validateForm() {
-      // Add specific validations for each field if needed
-      return true;
+        // Add specific validations for each field if needed
+        return true;
     }
-  </script>
+</script>
 </head>
 <body>
-  <h1>Add Vehicle to Inventory</h1>
+    <h1>Add Vehicle to Inventory</h1>
 
-  <% if (message) { %>
+    <% if (message) { %>
     <div class="flash"><%= message %></div>
-  <% } %>
-
-  <% if (errors && errors.length > 0) { %>
+    <% } %>
+    
+    <% if (errors && errors.length > 0) { %>
     <ul class="errors">
-      <% errors.forEach(err => { %>
+        <% errors.forEach(err => { %>
         <li><%= err.msg %></li>
-      <% }) %>
+        <% }) %>
     </ul>
-  <% } %>
-
-  <form action="/inv/add-inventory" method="post" onsubmit="return validateForm()">
+    <% } %>
+    
+    <form action="/inv/add-inventory" method="post" onsubmit="return validateForm()">
     <label for="make">Make</label>
     <input type="text" id="make" name="make" value="<%= inventory?.make || '' %>" required>
 
@@ -51,9 +51,8 @@
     <%- classificationList %>
 
     <button type="submit">Add Vehicle</button>
-  </form>
+</form>
 </body>
 </html>
 <!-- This code is for adding a new vehicle to the inventory. It includes a form with fields for make, model, year, price, description, image path, thumbnail path, and classification. The form submits to the server for processing. -->
 <!-- The page also displays any messages or errors that occur during the process. -->
- 

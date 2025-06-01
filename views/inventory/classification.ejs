@@ -1,8 +1,51 @@
-<% if (title) { %>
+<!-- <% if (title) { %>
 <h1><%= title %></h1>
 <% } else {
   res.redirect('/')
 } %>
 
 <%# messages() %>
-<%- grid %>
+<%- grid %> -->
+
+
+<!-- <%- include('../partials/head', {title}) %>
+<body>
+  <%- include('../partials/header') %>
+  <%- include('../partials/navigation', {nav}) %>
+  <main>
+    <%- grid %>
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+</html> -->
+
+
+<%- include('../partials/head', {title}) %>
+<body>
+  <%- include('../partials/header') %>
+  <%- include('../partials/navigation', {nav}) %>
+
+  <main class="classification-view">
+    <%# Content Heading Section %>
+    <div class="content-header">
+      <% if (title) { %>
+        <h1><%= title %></h1>
+      <% } else { %>
+        <% res.redirect('/') %>
+      <% } %>
+    </div>
+
+    <%# Message Block Section %>
+    <div class="message-block">
+      <%# messages() %> 
+    </div>
+
+    <%# Inventory Display Section %>
+    <section class="inventory-display">
+      <%- grid %>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

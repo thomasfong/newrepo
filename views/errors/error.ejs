@@ -1,0 +1,15 @@
+<%- include('../partials/head', {title}) %>
+<body>
+  <%- include('../partials/header') %>
+  <%- include('../partials/navigation', {nav}) %>
+
+  <main class="error-view">
+    <h1>Error <%= status %></h1>
+    <p class="error-message"><%= message %></p>
+    <p>Please try again or contact support if the problem persists.</p>
+    <a href="/" class="home-link">Return to Home</a>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

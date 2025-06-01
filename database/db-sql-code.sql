@@ -1,15 +1,3 @@
--- 授予对public模式的所有权限
-GRANT ALL PRIVILEGES ON SCHEMA public TO cse340_4;
-
--- 授予对public模式中所有表的权限
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO cse340_4;
-
--- 授予对public模式中所有序列的权限
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO cse340_4;
-
--- 授予创建权限
-GRANT CREATE ON SCHEMA public TO cse340_4;
-
 
 CREATE TYPE public.account_type AS ENUM
     ('Client', 'Employee', 'Admin');

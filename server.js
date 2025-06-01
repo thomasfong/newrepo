@@ -12,6 +12,7 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
+const errorHandler = require('./utilities/errorHandler');
 const session = require("express-session")
 const pool = require('./database/')
 const utilities = require('./utilities/')
@@ -21,6 +22,18 @@ const accountRoute = require('./routes/accountRoute')
 // Inventory routes
 app.use("/account", accountRoute )
 app.use("/inv", inventoryRoute)
+app.use(errorHandler.notFound);
+app.use(errorHandler.handleErrors);
+
+// error route
+app.get('/trigger-error', (req, res, next) => {
+  try {
+    // Intentionally cause an error
+    throw new Error('This is a test 500 error');
+  } catch (err) {
+    next(err);
+  }
+});
 
 /* ***********************
  * Middleware

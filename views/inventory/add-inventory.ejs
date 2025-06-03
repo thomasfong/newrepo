@@ -1,58 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>Add Inventory</title>
-<script>
-    function validateForm() {
-        // Add specific validations for each field if needed
-        return true;
-    }
-</script>
-</head>
-<body>
-    <h1>Add Vehicle to Inventory</h1>
 
-    <% if (message) { %>
-    <div class="flash"><%= message %></div>
-    <% } %>
+<main>
+    <%# Unit 4, Assignment 4, Task 2 %>
+    <% if (title) {%>
+      <h1><%= title %></h1>
+      <%} else {res.redirect('/')} %>
+      
+      <%- messages() %>
+      
+      <% if (errors) { %>
+      <ul class="message warning">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <%  }) %>
+      </ul>
+      <% } %>
+      <form action="/inv/addInventory" method="post" class="inventory-form">
+        <div class="form-group">
+          <label for="classificationList">Classification:</label>
+          <%- classificationSelect %>
+        </div>
+        <div class="form-group">
+          <label for="inv_make">Make:</label>
+          <input
+            type="text"
+            id="inv_make"
+            name="inv_make"
+            required
+            placeholder="Enter make"
+            value="<%= locals.inv_make || '' %>"
+            aria-required="true"
+          >
+        </div>
+        <div class="form-group">
+          <label for="inv_model">Model:</label>
+          <input
+            type="text"
+            id="inv_model"
+            name="inv_model"
+            required
+            placeholder="Enter model"
+            value="<%= locals.inv_model || '' %>"
+            aria-required="true"
+          >
+        </div>
+        <div class="form-group">
+          <label for="inv_description">Description:</label>
+          <textarea
+            id="inv_description"
+            name="inv_description"
+            required
+            placeholder="Enter description"
+            aria-required="true"
+          ><%= locals.inv_description || '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="inv_image">Image Path:</label>
+          <input
+            type="text"
+            id="inv_image"
+            name="inv_image"
+            required
+            placeholder="/images/vehicles/no-image.png"
+            value="<%= locals.inv_image || '/images/vehicles/no-image.png' %>"
+            aria-required="true"
+          >
+        </div>
+        <div class="form-group">
+          <label for="inv_thumbnail">Thumbnail Path:</label>
+          <input
+            type="text"
+            id="inv_thumbnail"
+            name="inv_thumbnail"
+            required
+            placeholder="/images/vehicles/no-image-tn.png"
+            value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"
+            aria-required="true"
+          >
+        </div>
+        <div class="form-group">
+          <label for="inv_price">Price:</label>
+          <input
+            type="number"
+            id="inv_price"
+            name="inv_price"
+            required
+            min="0"
+            step="0.01"
+            placeholder="Enter price"
+            value="<%= locals.inv_price || '' %>"
+            aria-required="true"
+          >
+        </div>
+        <div class="form-group">
+          <label for="inv_year">Year:</label>
+          <input
+            type="number"
+            id="inv_year"
+            name="inv_year"
+            required
+            min="1900"
+            max="<%= new Date().getFullYear() + 1 %>"
+            placeholder="Enter year"
+            value="<%= locals.inv_year || '' %>"
+            aria-required="true"
+          >
+        </div>
+        <div class="form-group">
+          <label for="inv_miles">Miles:</label>
+          <input
+            type="number"
+            id="inv_miles"
+            name="inv_miles"
+            required
+            min="0"
+            placeholder="Enter miles"
+            value="<%= locals.inv_miles || '' %>"
+            aria-required="true"
+          >
+        </div>
+        <div class="form-group">
+          <label for="inv_color">Color:</label>
+          <input
+            type="text"
+            id="inv_color"
+            name="inv_color"
+            required
+            placeholder="Enter color"
+            value="<%= locals.inv_color || '' %>"
+            aria-required="true"
+          >
+        </div>
+        <button type="submit" class="submit-btn">Add Inventory</button>
+      </form>
+    </main>
     
-    <% if (errors && errors.length > 0) { %>
-    <ul class="errors">
-        <% errors.forEach(err => { %>
-        <li><%= err.msg %></li>
-        <% }) %>
-    </ul>
-    <% } %>
-    
-    <form action="/inv/add-inventory" method="post" onsubmit="return validateForm()">
-    <label for="make">Make</label>
-    <input type="text" id="make" name="make" value="<%= inventory?.make || '' %>" required>
-
-    <label for="model">Model</label>
-    <input type="text" id="model" name="model" value="<%= inventory?.model || '' %>" required>
-
-    <label for="year">Year</label>
-    <input type="number" id="year" name="year" value="<%= inventory?.year || '' %>" required>
-
-    <label for="price">Price</label>
-    <input type="number" id="price" name="price" value="<%= inventory?.price || '' %>" required>
-
-    <label for="description">Description</label>
-    <textarea id="description" name="description" required><%= inventory?.description || '' %></textarea>
-
-    <label for="image">Image Path</label>
-    <input type="text" id="image" name="image" value="<%= inventory?.image || '/images/vehicles/no-image.png' %>" required>
-
-    <label for="thumbnail">Thumbnail Path</label>
-    <input type="text" id="thumbnail" name="thumbnail" value="<%= inventory?.thumbnail || '/images/vehicles/no-image-tn.png' %>" required>
-
-    <label for="classification_id">Classification</label>
-    <%- classificationList %>
-
-    <button type="submit">Add Vehicle</button>
-</form>
-</body>
-</html>
-<!-- This code is for adding a new vehicle to the inventory. It includes a form with fields for make, model, year, price, description, image path, thumbnail path, and classification. The form submits to the server for processing. -->
-<!-- The page also displays any messages or errors that occur during the process. -->

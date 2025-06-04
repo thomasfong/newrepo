@@ -19,6 +19,7 @@ const pool = require('./database/')
 const bodyParser = require("body-parser")
 const flash =require("connect-flash")
 
+
 /* ***********************
  * Routes
  *************************/
@@ -62,14 +63,17 @@ app.use(function(req, res, next){
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+
 app.use(express.static('public'));
 app.use(static);
 
 // Inventory routes
 app.use("/inv", inventoryRoute);
 
+
 // account route
 app.use("/account",accountRoute);
+
 
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome));

@@ -1,24 +1,22 @@
 
-<!DOCTYPE html>
 <main>
-    <%# Unit 4, Select Inv Item activity %>
-    <% if (title) {%>
-      <h1><%= title %></h1>
-      <%} else {res.redirect('/')} %>
-      
-      <%- messages() %>
-      
-      
-      <% if (errors) { %>
-      <ul class="message warning">
-        <% errors.array().forEach(error => { %>
-        <li><%= error.msg %></li>
-        <%  }) %>
-      </ul>
-      <% } %>
-      <ul class="martin">
-        <li><a href="/inv/newClassification/">Add New Classification</a></li>
-        <li><a href="/inv/newVehicle/">Add New Inventory Item</a></li>
-      </ul>
-    </main>
-    
+<%# Unit 4, Select Inv Item activity %>
+<% if (title) {%>
+  <h1><%= title %></h1>
+  <%} else {res.redirect('/')} %>
+  
+  <%- messages() %>
+  
+  
+  <% if (errors) { %>
+  <ul class="message warning">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <%  }) %>
+  </ul>
+  <% } %>
+  <ul class="martin">
+    <li><a href="/inv/newClassification/">Add New Classification</a></li>
+    <li><a href="/inv/newVehicle/">Add New Inventory Item</a></li>
+  </ul>
+</main>

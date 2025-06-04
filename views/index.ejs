@@ -1,53 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
 
-<body>
-<main class="container">
-    <section class="content-grid">
-        <div class="content=grid">
-            <h2>Welcome to CSE Motors!</h2>
-            <img src="/images/vehicles/delorean.jpg" alt="DMC Delorean" class="car-image">
-            <aside class="car-description">
-                <p><strong>DMC Delorean</strong></p>
-                <p>3 Cup holders</p>
-                <p>Superman doors</p>
-                <p>Fuzzy dice!</p>
-                <button>Own Today</button>
-            </aside>  
+<h1 class="message">Welcome to CSE Motors!</h1>
+<%-messages()%>
+<div class="container">
+    <div class="header-left">
+        <p>
+            DMC Delorean <br>
+            3 Cup Holders <br>
+            Superman Doors <br>
+            Fuzzy Dice
+        </p>
+        <div class="img">
+            <img src="<%-imagePath %>" alt="DMC DeLorean" style="max-width: 150px;">
         </div>
-        
-        <section class="content-section review-section">
-            <h2>DMC Delorean Review</h2>
-            <ul>
-                <li>"So fast it's almost like travelling in time." (4/5)</li>
-                <li>"Coolest ride on the road." (4/5)</li>
-                <li>"I'm feeling McFly?" (4/5)</li>
-                <li>"The most futuristic ride of our day." (4.5/5)</li>
-                <li>"80's livin' and I love it!" (5/5)</li>
-            </ul>
-        </section>
-
-        <section class="content-section upgrades-section">
-            <h2>Delorean Upgrades</h2>
-            <div class="upgrade-grid">
-                <% const upgrades = [
-                        {img: 'flux-cap.png', alt: 'Flux Capacitor', caption: 'Flux Capacitor'},
-                        {img: 'flame.jpg', alt: 'Flame Decal', caption: 'Flame Decals'},
-                        {img: 'bumper_sticker.jpg', alt: 'Bumper Sticker', caption: 'Bumper Stickers'},
-                        {img: 'hub-cap.jpg', alt: 'Hub Cap', caption: 'Hub Caps'}
-                    ]; %>
-                    <% upgrades.forEach(u => { %>
-                        <figure class="upgrade-item">
-                            <img src="/images/upgrades/<%= u.img %>" alt="<%= u.alt %>" class="upgrade-image">
-                            <figcaption><%= u.caption %></figcaption>
-                        </figure>
-                    <% }) %>
+    </div>
+</div>
+<section>
+    <div class="container_fluid">
+        <div class="container-left">
+            <h2>Delorean Upgrade</h2>
+            <div class="wrappers">
+                <div class="content">
+                    <img src="<%-imagePath1 %>" alt="flux capacitor" style="max-width: 300px;">
+                    <p><a href="">flux capacitor</a></p>
                 </div>
-            </section>
-        </section>
-    </main>
-</body>
-</html>
+                <div class="content">
+                    <img src="<%-imagePath2 %>" alt="flame Decals" style="max-width: 150px;">
+                    <p><a href="">flame Decals</a></p>
+                </div>
+                <div class="content">
+                    <img src="<%-imagePath3 %>" alt="Bumber Stickers" style="max-width: 150px;">
+                    <p><a href="">Bumber Stickers</a></p>
+                </div>
+                <div class="content">
+                    <img src="<%-imagePath4 %>" alt="Hub Caps" style="max-width: 150px;">
+                    <p><a href="">Hub Caps</a></p>
+                </div>
+            </div>
+
+ 
+        </div>
+        <div class="container_right">
+            <h2>DMC Delorean Reviews</h2>
+            <ul>
+                <li>"So fast it's almost like travelling in time" (4/5)</li>
+                <li>"Coolest ride on the road". (4/5)</li>
+                <li>"I'm feeling Mcfly!". (5/5)</li>
+                <li>"The Most futuristic ride of our day".(4/5/5)</li>
+                <li>"80's living and i love it!". (5/5)</li>
+            </ul>
+
+        </div>
+    </div>
+</section>

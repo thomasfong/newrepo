@@ -5,54 +5,95 @@
 /* ***********************
  * Require Statements
  *************************/
-const express = require("express")
-const expressLayouts = require("express-ejs-layouts")
-const env = require("dotenv").config()
-const app = express()
-const static = require("./routes/static")
-
-
-/* ***********************
- * View Engine and Templates
- *************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
-
+const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
+const env = require("dotenv").config();
+const app = express();
+const static = require("./routes/static");
+const baseController = require("./controllers/baseController");
+const inventoryRoute = require("./routes/inventoryRoute");
+const accountRoute =require("./routes/accountRoute")
+const utilities = require("./utilities/");
+const session = require("express-session")
+const pool = require('./database/')
+const bodyParser = require("body-parser")
+const flash =require("connect-flash")
 
 /* ***********************
  * Routes
  *************************/
-app.use(static)
-// Index route
-app.get("/", function(req, res) {
-  res.render("index", { title: "Home" })
-})
+app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set("layout", "./layouts/layout"); // not at views root
 
 /* ***********************
-* Express Error Handler
-* Place after all other middleware
-*************************/
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
+// changes added thid day 02/06/2025.
+// app.use(flash()),
+// app.use((req,res,next)=>{
+//   res.locals.success =res.flash("success"),
+//   res.locals.error =res.flash("error");
+//   next();
+// })
+
+
+// bodyParser  added here.
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+app.use(express.static('public'));
+app.use(static);
+
+// Inventory routes
+app.use("/inv", inventoryRoute);
+
+// account route
+app.use("/account",accountRoute);
+
+// Index route
+app.get("/", utilities.handleErrors(baseController.buildHome));
+
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({ status: 404, message: 'Sorry, we appear to have lost that page.' });
+});
+
+// Express Error Handler
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  let nav = await utilities.getNav();
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+  const message = err.status == 404 ? err.message : 'Oh no! There was a crash. Maybe try a different route?';
   res.render("errors/error", {
     title: err.status || 'Server Error',
-    message: err.message,
+    message,
     nav
-  })
-})
+  });
+});
 
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT
-const host = process.env.HOST
+const port = process.env.PORT;
+const host = process.env.HOST;
 
-/* ***********************
- * Log statement to confirm server operation
- *************************/
 app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
-})
+  console.log(`app listening on ${host}:${port}`);
+});

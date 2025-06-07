@@ -10,7 +10,6 @@ const utilities =require("../utilities")
 const regValidate = require('../utilities/account-validation')
 
 
-
 /******************************************
  * Deliver login view
  * unit 4 deliver login view activity
@@ -43,12 +42,12 @@ router.post(
   )
 
   // Process the login data
-  // router.post(
-  //   "/login",
-  //   regValidate.loginRules(),
-  //   regValidate.checkLoginData,
-  //   utilities.handleErrors(accountController.loginAccount)
-  // )
+  router.post(
+    "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.loginAccount)
+  )
 
 //  router.post(
 // )

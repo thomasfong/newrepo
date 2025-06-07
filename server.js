@@ -5,6 +5,7 @@
 /* ***********************
  * Require Statements
  *************************/
+const cookieParser = require("cookie-parser")
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
@@ -40,8 +41,10 @@ app.use(session({
   saveUninitialized: true,
   name: 'sessionId',
 }))
+app.use(cookieParser())
 
-
+// Middleware to check for JWT token
+app.use(utilities.checkJWTToken)
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
@@ -50,7 +53,7 @@ app.use(function(req, res, next){
   next()
 })
 
-// changes added thid day 02/06/2025.
+// changes added this day 02/06/2025.
 // app.use(flash()),
 // app.use((req,res,next)=>{
 //   res.locals.success =res.flash("success"),

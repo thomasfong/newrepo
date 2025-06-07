@@ -1,5 +1,5 @@
-
-<main>
+<form id="loginForm" action="/account/login" method="post"></form>
+<main>    
     <h1><%= title %></h1>
     <%-messages()%>
     <% if (errors) { %>
@@ -11,7 +11,9 @@
       <% } %>
 
     <!-- Login Form -->
-    <form action="/account/login" method="post" class="login-form" novalidate>
+    <form id="loginForm" action="/account/login" method="post">>
+        
+    <!-- <form action="/account/login" method="post"> -->
         <div class="form_group">
             <label for="account_email">Email Address:</label>
             <input 

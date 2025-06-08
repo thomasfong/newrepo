@@ -8,36 +8,19 @@
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
-const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute")
-const errorHandler = require('./utilities/errorHandler');
 const session = require("express-session")
 const pool = require('./database/')
 const utilities = require('./utilities/')
 const accountRoute = require('./routes/accountRoute') 
-
-
-// Inventory routes
-app.use("/account", accountRoute )
-app.use("/inv", inventoryRoute)
-app.use(errorHandler.notFound);
-app.use(errorHandler.handleErrors);
-
-// error route
-app.get('/trigger-error', (req, res, next) => {
-  try {
-    // Intentionally cause an error
-    throw new Error('This is a test 500 error');
-  } catch (err) {
-    next(err);
-  }
-});
+const errorRoute = require('./routes/errorRoute')
+const app = express()
 
 /* ***********************
  * Middleware
  * ************************/
+app.use(express.static("public"));
  app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -61,12 +44,15 @@ app.use(function(req, res, next){
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Routes
  *************************/
 app.use(require("./routes/static"))
+
+// Index route
+app.get("/", baseController.buildHome)
 //Index route - Unit 3, activity
 app.use("/", utilities.handleErrors(baseController.buildHome))
 //Inventory routes -Unit 3, activity
@@ -74,8 +60,32 @@ app.use("/inv", require("./routes/inventoryRoute"))
 //Account routes -Unit 4, activity
 app.use('/account', accountRoute);
 
-// Index route
-app.get("/", baseController.buildHome)
+// Inventory routes
+app.use("/account", accountRoute )
+app.use("/inv", inventoryRoute)
+
+// error route
+app.use("/trigger-error", errorRoute)
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+})
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+  res.render("errors/error", {
+    title: err.status || 'Server Error',
+    message,
+    nav
+  })
+})
+
 
 /* ***********************
  * Local Server Information

@@ -1,4 +1,4 @@
-const { buildByClassificationId } = require("../controllers/invController")
+const { buildByInventoryId } = require("../controllers/invController")
 const pool = require("../database/")
 
 /* ***************************
@@ -22,7 +22,7 @@ async function getInventoryByClassificationId(classification_id) {
     )
     return data.rows
   } catch (error) {
-    console.error("getInventoryByClassificationId error " + error)
+    console.error("getclassificationsbyid error " + error)
   }
 }
 
@@ -42,4 +42,4 @@ async function getInventoryById(inv_id) {
 }
 
 
-module.exports = { getClassifications, getInventoryByClassificationId, getInventoryById }
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById};

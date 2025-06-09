@@ -572,6 +572,23 @@ table#inventoryDisplay a {
 table#inventoryDisplay a:hover {
   text-decoration: underline;
 }
+/* style for logout button */
+.logout-link button{
+  background-color: var(--color-primary-variant);
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-radius: 0.3rem;
+  color: var(--color-white);
+}
+.logout-link button:hover{
+  background-color: var(--color-bg);
+}
+/* error message */
+.message-notice{
+  color: var(--color-red);
+  text-align: center;
+}
 
 @media (max-width: 480px) {
   .vehicle-info h1 {

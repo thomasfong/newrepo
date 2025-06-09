@@ -1,7 +1,6 @@
+const invModel = require("../models/inventory-model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
-
-const invModel = require("../models/inventory-model")
 const Util = {}
 
 /* ************************
@@ -35,9 +34,6 @@ Util.getNav = async function (req, res, next) {
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
-
-module.exports = Util
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
@@ -133,7 +129,110 @@ Util.buildClassificationList = async function (classification_id = null) {
 }
 
 /* ****************************************
+* Middleware to check token validity
+**************************************** */
+// Util.checkJWTToken = (req, res, next) => {
+//   if (req.cookies.jwt) {
+//    jwt.verify(
+//     req.cookies.jwt,
+//     process.env.ACCESS_TOKEN_SECRET,
+//     function (err, accountData) {
+//      if (err) {
+//       req.flash("Please log in")
+//       res.clearCookie("jwt")
+//       return res.redirect("/account/login")
+//      }
+//      res.locals.accountData = accountData
+//      res.locals.loggedin = 1
+//      next()
+//     })
+//   } else {
+//    next()
+//   }
+//  }
+
+
+Util.checkJWTToken = (req, res, next) => {
+  try {
+    console.log("Checking JWT cookie")
+    if (!process.env.ACCESS_TOKEN_SECRET) {
+      console.error("ACCESS_TOKEN_SECRET is not defined in .env")
+      res.locals.loggedin = 0
+      res.locals.accountData = null
+      return next()
+    }
+    if (req.cookies.jwt) {
+      console.log("JWT cookie found:", req.cookies.jwt)
+      jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET, (err, accountData) => {
+        if (err) {
+          console.log("JWT verification error:", err.message)
+          res.clearCookie("jwt", { httpOnly: true })
+          res.locals.loggedin = 0
+          res.locals.accountData = null
+        } else {
+          console.log("Setting res.locals.accountData:", accountData)
+          res.locals.loggedin = 1
+          res.locals.accountData = accountData
+        }
+        next()
+      })
+    } else {
+      console.log("No JWT cookie found")
+      res.locals.loggedin = 0
+      res.locals.accountData = null
+      next()
+    }
+  } catch (error) {
+    console.error("Error in checkJWTToken:", error.message, error.stack)
+    next(error)
+  }
+}
+ /**************************
+  * used to check if is admin or employee
+  */
+ Util.restrictToEmployeeOrAdmin = (req, res, next) => {
+  try {
+    console.log("Restricting access - loggedin:", res.locals.loggedin, "account_type:", res.locals.accountData?.account_type)
+    if (res.locals.loggedin && ['Employee', 'Admin'].includes(res.locals.accountData?.account_type)) {
+      console.log("Access granted for user:", res.locals.accountData?.account_email)
+      next()
+    } else {
+      console.log("Access denied - redirecting to login")
+      req.flash("notice", "Please log in as an Employee or Admin to access this page.")
+      return res.redirect("account/login")
+    }
+  } catch (error) {
+    console.error("Error in restrictToEmployeeOrAdmin:", error.message, error.stack)
+    next(error)
+  }
+}
+
+Util.handleErrors = fn => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(err => {
+    console.error("Error in route:", err.message, err.stack)
+    res.status(500).render("error", {
+      title: "Server Error",
+      nav: '<ul><li><a href="/">Home</a></li></ul>',
+      message: "Oh no! There was a crash. Maybe try a different route?"
+    })
+  })
+}
+
+  /****************************************
  *  Check Login
+ * ************************************ */
+//  Util.checkLogin = (req, res, next) => {
+//   console.log("Checking loggedin status:", res.locals.loggedin, "account_type:", res.locals.accountData?.account_type)
+//   if (res.locals.loggedin && ['Employee', 'Admin'].includes(res.locals.accountData?.account_type)) {
+//     next()
+//   } else {
+//     req.flash("notice", "Please log in as an Employee or Admin.")
+//     return res.redirect("account/login")
+//   }
+// }
+/* ****************************************
+ *  Check Login
+ *  Unit 5, jwt authorize activity
  * ************************************ */
 Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
@@ -142,27 +241,6 @@ Util.checkLogin = (req, res, next) => {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
-}
+ }
 
-/* ****************************************
-* Middleware to check token validity
-**************************************** */
-Util.checkJWTToken = (req, res, next) => {
-if (req.cookies.jwt) {
-  jwt.verify(
-req.cookies.jwt,
-  process.env.ACCESS_TOKEN_SECRET,
-  function (err, accountData) {
-    if (err) {
-    req.flash("Please log in")
-    res.clearCookie("jwt")
-    return res.redirect("/account/login")
-    }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
-    next()
-  })
-} else {
-  next()
-}
-}
+module.exports =Util

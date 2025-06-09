@@ -32,7 +32,7 @@ router.get(
 router.get(
   "/",
   //utilities.checkAccountType,
-  utilities.handleErrors(invController.buildManagementView)
+  utilities.restrictToEmployeeOrAdmin,utilities.handleErrors(invController.buildManagementView)
 )
 
 /* ****************************************
@@ -43,7 +43,7 @@ router.get(
 router.get(
   "/newClassification",
   //utilities.checkAccountType,
-  utilities.handleErrors(invController.newClassificationView)
+  utilities.restrictToEmployeeOrAdmin,utilities.handleErrors(invController.newClassificationView)
 )
 
 
@@ -57,7 +57,7 @@ router.post(
   //utilities.checkAccountType,
   invChecks.classificationRule(),
   invChecks.checkClassificationData,
-  utilities.handleErrors(invController.addClassification)
+  utilities.restrictToEmployeeOrAdmin,utilities.handleErrors(invController.addClassification)
 )
 
 /* ****************************************
@@ -68,7 +68,7 @@ router.post(
 router.get(
   "/newVehicle",
   //utilities.checkAccountType,
-  utilities.handleErrors(invController.newInventoryView)
+  utilities.restrictToEmployeeOrAdmin,utilities.handleErrors(invController.newInventoryView)
 )
 
 /* ****************************************
@@ -81,8 +81,24 @@ router.post(
   //utilities.checkAccountType,
   invChecks.newInventoryRules(),
   invChecks.checkInventoryData,
-  utilities.handleErrors(invController.addInventory)
+  utilities.restrictToEmployeeOrAdmin,utilities.handleErrors(invController.addInventory)
 )
+
+// Administrative routes (require Employee or Admin)
+// Route to return inventory by classification as JSON
+router.get("/getInventory/:classification_id",utilities.restrictToEmployeeOrAdmin, utilities.handleErrors(invController.getInventoryJSON))
+
+// Route to deliver edit inventory view
+router.get("/edit/:inv_id",utilities.restrictToEmployeeOrAdmin, utilities.handleErrors(invController.editInventoryView))
+
+// route to deliver the edit changes to the database.
+router.post("/update/",utilities.restrictToEmployeeOrAdmin,utilities.handleErrors(invController.updateInventory))
+
+// Route to deliver delete inventory view
+router.get("/delete/:inv_id",utilities.restrictToEmployeeOrAdmin, utilities.handleErrors(invController.deleteconfirmView))
+
+// route to deliver the edit changes to the database.
+router.post("/delete/",utilities.restrictToEmployeeOrAdmin,utilities.handleErrors(invController.deleteInventory))
 
 
 module.exports = router;

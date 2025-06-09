@@ -513,7 +513,65 @@ textarea {
 .martin li a:hover {
   text-decoration: underline;
 }
+/* new style update */
+.management{
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  
+  text-align: left;
+}
+.management a{
+  text-decoration: none;
+  font-size: 20px;
+}
+.management a:hover{
+  text-decoration: underline;
+}
+.official{
+ text-align: center;
+}
+#inventoryDisplay{
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+.class{
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 2rem;
+}
+table#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
 
+table#inventoryDisplay thead {
+  background-color: #f2f2f2;
+}
+
+table#inventoryDisplay th, table#inventoryDisplay td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table#inventoryDisplay th {
+  font-weight: bold;
+}
+
+table#inventoryDisplay a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+table#inventoryDisplay a:hover {
+  text-decoration: underline;
+}
 
 @media (max-width: 480px) {
   .vehicle-info h1 {

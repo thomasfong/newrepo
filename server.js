@@ -13,6 +13,7 @@ const baseController = require("./controllers/baseController")
 const session = require("express-session")
 const pool = require('./database/')
 const utilities = require('./utilities/')
+const inventoryRoute = require('./routes/inventoryRoute')
 const accountRoute = require('./routes/accountRoute') 
 const errorRoute = require('./routes/errorRoute')
 const app = express()
@@ -55,14 +56,10 @@ app.use(require("./routes/static"))
 app.get("/", baseController.buildHome)
 //Index route - Unit 3, activity
 app.use("/", utilities.handleErrors(baseController.buildHome))
-//Inventory routes -Unit 3, activity
-app.use("/inv", require("./routes/inventoryRoute"))
-//Account routes -Unit 4, activity
-app.use('/account', accountRoute);
 
 // Inventory routes
-app.use("/account", accountRoute )
 app.use("/inv", inventoryRoute)
+app.use('/account', accountRoute);
 
 // error route
 app.use("/trigger-error", errorRoute)

@@ -8,7 +8,7 @@ const utilities = require('../utilities');
 router.get("/type/:classificationId", invController.buildByClassificationId);
 
 // Route to routes inventoryRoute.js
-router.get("/detail/:inv_id", invController.buildByInventoryId);
+router.get("/detail/:inv_id", invController.buildByInventoryId );
 
 router.get('/delete/:inv_id', 
   utilities.handleErrors(invController.buildDeleteConfirmation))

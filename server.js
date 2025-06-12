@@ -23,6 +23,7 @@ const errorRoute = require('./routes/errorRoute');
  * Middleware
  * ************************/
 app.use(express.static("public"));
+app.use(cookieParser());
  app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -39,6 +40,13 @@ app.use(express.static("public"));
     sameSite: 'strict'
   }
 }))
+
+app.use(flash());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// JWT Authentication Middleware
+app.use(utilities.checkJWTToken);
 
 // Express Messages Middleware
 app.use(require('connect-flash')())

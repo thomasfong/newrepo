@@ -191,11 +191,97 @@ async function accountLogout(req, res) {
   res.redirect("/");
 }
 
+/* ****************************************
+*  Deliver account update view
+* *************************************** */
+async function buildUpdateView(req, res, next) {
+  try {
+    const account_id = req.params.id;
+    const accountData = await accountModel.getAccountById(account_id);
+    let nav = await utilities.getNav();
+    
+    res.render("account/update", {
+      title: "Update Account",
+      nav,
+      errors: null,
+      account_id: accountData.account_id,
+      account_firstname: accountData.account_firstname,
+      account_lastname: accountData.account_lastname,
+      account_email: accountData.account_email,
+      messages: req.flash()
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/* ****************************************
+*  Process account update
+* *************************************** */
+async function updateAccountInfo(req, res, next) {
+  try {
+    const { account_id, account_firstname, account_lastname, account_email } = req.body;
+    
+    // Check if email is being changed to one that already exists
+    const existingAccount = await accountModel.getAccountByEmail(account_email);
+    if (existingAccount && existingAccount.account_id != account_id) {
+      req.flash("error", "Email already exists. Please use a different email.");
+      return res.redirect(`/account/update/${account_id}`);
+    }
+
+    const updateResult = await accountModel.updateAccount(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    );
+
+    if (updateResult) {
+      req.flash("success", "Account information updated successfully.");
+      return res.redirect("/account/management");
+    } else {
+      throw new Error("Account update failed");
+    }
+  } catch (error) {
+    console.error("Account update error:", error);
+    req.flash("error", "Sorry, there was an error updating your account.");
+    res.redirect(`/account/update/${req.body.account_id}`);
+  }
+}
+
+/* ****************************************
+*  Process password change
+* *************************************** */
+async function updatePassword(req, res, next) {
+  try {
+    const { account_id, account_password } = req.body;
+    
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+    
+    const updateResult = await accountModel.changePassword(account_id, hashedPassword);
+    
+    if (updateResult) {
+      req.flash("success", "Password updated successfully.");
+      return res.redirect("/account/management");
+    } else {
+      throw new Error("Password update failed");
+    }
+  } catch (error) {
+    console.error("Password update error:", error);
+    req.flash("error", "Sorry, there was an error updating your password.");
+    res.redirect(`/account/update/${req.body.account_id}`);
+  }
+}
+
 module.exports = { 
   buildLogin, 
   buildRegister, 
   registerAccount, 
   accountLogin,
   accountManagement,
-  accountLogout
+  accountLogout,
+  buildUpdateView,
+  updateAccountInfo,
+  updatePassword
 };

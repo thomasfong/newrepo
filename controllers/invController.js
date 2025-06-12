@@ -390,4 +390,13 @@ invCont.deleteInventoryItem = async function (req, res, next) {
   }
 };
 
+// Add this to your inventory controller
+invCont.handleErrors = (err, req, res, next) => {
+  if (err.message === 'Not authorized') {
+    req.flash('notice', 'You are not authorized to access this page.');
+    return res.redirect('/account/login');
+  }
+  next(err);
+};
+
 module.exports = invCont;

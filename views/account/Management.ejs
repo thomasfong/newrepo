@@ -23,6 +23,21 @@
             </div>
         <% } %>
 
+        <!-- Account Greeting and Management Links -->
+        <% if (accountData) { %>
+            <h2>Welcome <%= accountData.account_firstname %></h2>
+            
+            <% if (accountData.account_type === 'Employee' || accountData.account_type === 'Admin') { %>
+                <h3>Inventory Management</h3>
+                <p><a href="/inv/" class="btn btn-secondary">Manage Inventory</a></p>
+            <% } %>
+            
+            <!-- Update Account Link for All Users -->
+            <div class="account-actions">
+                <a href="/account/update/<%= accountData.account_id %>" class="btn btn-primary">Update Account Information</a>
+            </div>
+        <% } %>
+
         <h1>Inventory Management</h1>
         
         <div class="management-actions">

@@ -1,45 +1,70 @@
-// Needed Resources
+// inventoryRoute.js
 const express = require("express");
 const router = new express.Router();
 const invController = require("../controllers/invController");
 const utilities = require('../utilities');
 const validate = require('../utilities/account-validation');
+const authMiddleware = require('../utilities/authMiddleware');
 
-// Route to build inventory by classification view
+// Public routes (no auth required)
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
-
-// Route to build inventory item detail view
 router.get("/detail/:inv_id", utilities.handleErrors(invController.buildByInventoryId));
 
-// Route to get inventory by classification as JSON
-router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
-
-// Route to build edit inventory view
-router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
-
-// Route to update inventory item
-router.post(
-    "/update/", 
-    validate.inventoryRules(),
-    validate.checkUpdateData,
-    utilities.handleErrors(invController.updateInventory)
+// Admin routes (require Employee/Admin)
+router.get("/management", 
+  authMiddleware.requireEmployeeOrAdmin, 
+  utilities.handleErrors(invController.buildManagement)
 );
 
-// Route to build delete confirmation view (GET)
-router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteConfirmation));
+router.get("/add-classification", 
+  authMiddleware.requireEmployeeOrAdmin,
+  utilities.handleErrors(invController.buildAddClassification)
+);
 
-// Route to handle inventory deletion (POST)
-router.post("/delete/:inv_id", utilities.handleErrors(invController.deleteInventoryItem));
+router.post("/add-classification",
+  authMiddleware.requireEmployeeOrAdmin,
+  validate.classificationRules(),
+  validate.checkClassificationData,
+  utilities.handleErrors(invController.addClassification)
+);
 
-// Route to build add classification view
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
+router.get("/add-inventory", 
+  authMiddleware.requireEmployeeOrAdmin,
+  utilities.handleErrors(invController.buildAddInventory)
+);
 
-// Route to handle adding new classification
-router.post(
-    "/add-classification",
-    validate.classificationRules(),
-    validate.checkClassificationData,
-    utilities.handleErrors(invController.addClassification)
+router.post("/add-inventory",
+  authMiddleware.requireEmployeeOrAdmin,
+  validate.inventoryRules(),
+  validate.checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
+);
+
+router.get("/edit/:inv_id", 
+  authMiddleware.requireEmployeeOrAdmin,
+  utilities.handleErrors(invController.editInventoryView)
+);
+
+router.post("/update/", 
+  authMiddleware.requireEmployeeOrAdmin,
+  validate.inventoryRules(),
+  validate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+);
+
+router.get("/delete/:inv_id", 
+  authMiddleware.requireEmployeeOrAdmin,
+  utilities.handleErrors(invController.buildDeleteConfirmation)
+);
+
+router.post("/delete/:inv_id", 
+  authMiddleware.requireEmployeeOrAdmin,
+  utilities.handleErrors(invController.deleteInventoryItem)
+);
+
+// JSON route (typically used by AJAX, protect if needed)
+router.get("/getInventory/:classification_id", 
+  utilities.handleErrors(invController.getInventoryJSON)
 );
 
 module.exports = router;

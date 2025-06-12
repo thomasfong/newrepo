@@ -1,0 +1,36 @@
+
+<main>
+  <%# Unit 4, Assignment 4, Task 3 %>
+<% if (title) {%>
+  <h1>
+    <%= title %>
+  </h1>
+  <%} else {res.redirect('/')} %>
+  
+  <%- messages() %>
+  
+  <% if (errors) { %>
+  <ul class="message warning">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <%  }) %>
+  </ul>
+  <% } %>
+  <form action="/inv/addClassification" method="post" class="classification-form" class="form">
+    <div class="form-group">
+      <label for="classification_name">Classification Name:</label>
+      <input
+        type="text"
+        id="classification_name"
+        name="classification_name"
+        required
+        pattern="[A-Za-z]+"
+        placeholder="Enter classification name"
+        value="<%= locals.classification_name || '' %>"
+        aria-required="true"
+        title="Only letters, no spaces or special characters"
+      >
+    </div>
+    <button type="submit" class="submit---btn">Add Classification</button>
+  </form>
+</main>

@@ -1,22 +1,23 @@
-/* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
 /* ***********************
  * Require Statements
  *************************/
-const express = require("express")
-const expressLayouts = require("express-ejs-layouts")
-const env = require("dotenv").config()
-const static = require("./routes/static")
-const baseController = require("./controllers/baseController")
-const session = require("express-session")
-const pool = require('./database/')
-const utilities = require('./utilities/')
-const inventoryRoute = require('./routes/inventoryRoute')
-const accountRoute = require('./routes/accountRoute') 
-const errorRoute = require('./routes/errorRoute')
-const app = express()
+const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
+const env = require("dotenv").config();
+const session = require("express-session");
+const pool = require('./database/');
+const utilities = require('./utilities/');
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const flash = require('connect-flash');
+const app = express();
+
+// Route imports
+const static = require("./routes/static");
+const baseController = require("./controllers/baseController");
+const inventoryRoute = require('./routes/inventoryRoute');
+const accountRoute = require('./routes/accountRoute');
+const errorRoute = require('./routes/errorRoute');
 
 /* ***********************
  * Middleware
@@ -31,6 +32,12 @@ app.use(express.static("public"));
   resave: true,
   saveUninitialized: true,
   name: 'sessionId',
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'strict'
+  }
 }))
 
 // Express Messages Middleware
@@ -39,6 +46,14 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+
+// Process Registration Activity
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+
+// JWT Authentication Middleware
+app.use(utilities.checkJWTToken);
 
 /* ***********************
  * View Engine and Templates
@@ -53,13 +68,13 @@ app.set("layout", "./layouts/layout")
 app.use(require("./routes/static"))
 
 // Index route
-app.get("/", baseController.buildHome)
+// app.get("/", baseController.buildHome)
 //Index route - Unit 3, activity
 app.use("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory routes
-app.use("/inv", inventoryRoute)
-app.use('/account', accountRoute);
+app.use("/inv", require("./routes/inventoryRoute"))
+app.use('/account', require("./routes/accountRoute"))
 
 // error route
 app.use("/trigger-error", errorRoute)
@@ -82,7 +97,6 @@ app.use(async (err, req, res, next) => {
     nav
   })
 })
-
 
 /* ***********************
  * Local Server Information

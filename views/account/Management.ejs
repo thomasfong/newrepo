@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/inventory.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
+    
+    <main class="container">
+        <% if (messages.error) { %>
+            <div class="alert alert-danger">
+                <%= messages.error %>
+            </div>
+        <% } %>
+        
+        <% if (messages.success) { %>
+            <div class="alert alert-success">
+                <%= messages.success %>
+            </div>
+        <% } %>
+
+        <h1>Inventory Management</h1>
+        
+        <div class="management-actions">
+            <a href="/inv/add-classification" class="btn btn-primary">Add New Classification</a>
+            <a href="/inv/add-inventory" class="btn btn-primary">Add New Vehicle</a>
+        </div>
+
+        <h2>Manage Inventory</h2>
+        <p>Select a classification from the list to view inventory items:</p>
+        
+        <%- classificationSelect %>
+        
+        <table id="inventoryDisplay" class="inventory-table">
+            <!-- Inventory items will be inserted here by JavaScript -->
+        </table>
+        
+        <noscript>
+            <div class="alert alert-warning">
+                JavaScript must be enabled to use this page.
+            </div>
+        </noscript>
+
+    </main>
+
+    <%- include('../partials/footer') %>
+    
+    <script src="/js/inventory.js"></script>
+</body>
+</html>

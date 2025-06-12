@@ -1,9 +1,56 @@
-<% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-  res.redirect('/')
-} %>
+    <%- include('../partials/header') %>
+    
+    <main class="form-container">
+        <h1><%= title %></h1>
+        
+        <%- messages() %>
 
-<%# messages() %>
+        <% if (errors) { %>
+            <div class="alert alert-danger">
+                <ul>
+                    <% errors.array().forEach(error => { %>
+                        <li><%= error.msg %></li>
+                    <% }) %>
+                </ul>
+            </div>
+        <% } %>
 
-<%- grid %>
+<form action="/inv/add-classification" method="POST" id="classificationForm">
+            <div class="form-group">
+                <label for="classification_name">Classification Name*</label>
+                <input 
+                    type="text" 
+                    id="classification_name" 
+                    name="classification_name" 
+                    class="form-control" 
+                    required
+                    pattern="^[A-Za-z]+$"
+                    title="Only letters allowed, no spaces or special characters"
+                    <% if (typeof classification_name !== 'undefined') { %>
+                        value="<%= classification_name %>"
+                    <% } %>
+                >
+                <small class="form-text text-muted">
+                    Must contain only letters (no spaces, numbers, or special characters)
+                </small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Classification</button>
+            <a href="/inv/" class="btn btn-secondary">Cancel</a>
+        </form>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+    <script>
+        document.getElementById('classificationForm').addEventListener('submit', function(e) {
+            const input = document.getElementById('classification_name');
+            const regex = /^[A-Za-z]+$/;
+            
+            if (!regex.test(input.value)) {
+                e.preventDefault();
+                alert('Classification name can only contain letters with no spaces or special characters');
+                input.focus();
+            }
+        });
+    </script>

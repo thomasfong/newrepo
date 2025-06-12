@@ -1,4 +1,4 @@
-<%- include('../partials/head', {title}) %>
+<!-- <%- include('../partials/head', {title}) %>
 <body>
   <%- include('../partials/header') %>
   <%- include('../partials/navigation', {nav}) %>
@@ -7,6 +7,75 @@
     <%- detailHTML %>
   </main>
 
+  <%- include('../partials/footer') %>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .inventory-detail-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .inventory-image {
+      flex: 1 1 40%;
+      min-width: 300px;
+    }
+    
+    .inventory-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    
+    .inventory-details {
+      flex: 1 1 50%;
+      min-width: 300px;
+    }
+    
+    .price {
+      font-size: 1.5rem;
+      color: #d32f2f;
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+    
+    .mileage {
+      font-size: 1.1rem;
+      color: #333;
+      margin: 0.5rem 0;
+    }
+    
+    .description {
+      margin: 1.5rem 0;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+      .inventory-detail-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  
+  <main class="container">
+    <h1><%= title %></h1>
+    <%- grid %>
+  </main>
+  
   <%- include('../partials/footer') %>
 </body>
 </html>

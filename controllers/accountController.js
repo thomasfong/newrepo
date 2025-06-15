@@ -285,5 +285,3 @@ module.exports = {
   updateAccountInfo,
   updatePassword
 };
-
-

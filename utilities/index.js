@@ -1,7 +1,4 @@
 const invModel = require("../models/inventory-model")
-const jwt = require("jsonwebtoken")
-require("dotenv").config()
-
 const Util = {}
 
 /* ************************
@@ -9,6 +6,7 @@ const Util = {}
  ************************** */
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
+  // console.log(data)
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
@@ -26,6 +24,14 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>"
   return list
 }
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+module.exports = Util
 
 /* **************************************
 * Build the classification view HTML
@@ -60,75 +66,44 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
-Util.buildInventoryDetail = async function(data) {
-  return `
-    <div class="inventory-detail">
-      <div class="detail-image">
-        <img src="${data.inv_image}" 
-             alt="${data.inv_make} ${data.inv_model}" 
-             class="img-responsive">
-      </div>
-      <div class="detail-info">
-        <h2>${data.inv_year} ${data.inv_make} ${data.inv_model}</h2>
-        <div class="price-mileage">
-          <p class="price">$${new Intl.NumberFormat('en-US').format(data.inv_price)}</p>
-          <p class="mileage">${new Intl.NumberFormat('en-US').format(data.inv_miles)} miles</p>
-        </div>
-        <div class="description">
-          <p><strong>Color:</strong> ${data.inv_color}</p>
-          <p><strong>Description:</strong> ${data.inv_description}</p>
-        </div>
-      </div>
-    </div>
-  `;
-};
+Util.buildSingleVehicleDisplay = async (vehicle) => {
+  // Format price as USD with commas and currency symbol
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount);
+  };
 
-/* ***************************
- * Build Classification Select List
- * ************************** */
-Util.buildClassificationList = async function (classification_id = null) {
-    let data = await invModel.getClassifications()
-    let classificationList =
-      '<select name="classification_id" id="classificationList" class="form-control" required>'
-    classificationList += "<option value=''>Choose a Classification</option>"
-    data.forEach((row) => {
-      classificationList += '<option value="' + row.classification_id + '"'
-      if (
-        classification_id != null &&
-        row.classification_id == classification_id
-      ) {
-        classificationList += " selected "
-      }
-      classificationList += ">" + row.classification_name + "</option>"
-    })
-    classificationList += "</select>"
-    return classificationList
+  // Format mileage with commas
+  const formatNumber = (number) => {
+    return new Intl.NumberFormat('en-US').format(number);
+  };
+
+  // Use fallback image if inv_image is missing or empty
+  const imageSrc = vehicle.inv_image && vehicle.inv_image !== ''
+    ? vehicle.inv_image
+    : '/images/vehicle-placeholder.jpg';
+
+  // Build HTML structure
+  let svd = '<section id="vehicle-display" role="region" aria-label="Vehicle Details">';
+  svd += '<div class="vehicle-detail-container">';
+  svd += '<div class="vehicle-image">';
+  svd += `<img src="${imageSrc}" alt="${vehicle.inv_make} ${vehicle.inv_model}" />`;
+  svd += '</div>';
+  svd += '<div class="vehicle-info">';
+  svd += `<h1>${vehicle.inv_make} ${vehicle.inv_model}</h1>`;
+  svd += '<div class="vehicle-specs">';
+  svd += `<p><strong>Year:</strong> ${vehicle.inv_year}</p>`;
+  svd += `<p><strong>Price:</strong> ${formatCurrency(vehicle.inv_price)}</p>`;
+  svd += `<p><strong>Mileage:</strong> ${formatNumber(vehicle.inv_miles)} miles</p>`;
+  svd += `<p><strong>Color:</strong> ${vehicle.inv_color}</p>`;
+  svd += `<p><strong>Class:</strong> ${vehicle.classification_name}</p>`;
+  svd += `<p><strong>Description:</strong> ${vehicle.inv_description}</p>`;
+  svd += '</div>';
+  svd += '<a href="/contact" class="cta-button" role="button" tabindex="0">Contact Dealer</a>';
+  svd += '</div>';
+  svd += '</div>';
+  svd += '</section>';
+  return svd;
 }
-
-/* ****************************************
-* Middleware to check token validity
-**************************************** */
-Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-  jwt.verify(
-   req.cookies.jwt,
-   process.env.ACCESS_TOKEN_SECRET,
-   function (err, accountData) {
-    if (err) {
-     req.flash("Please log in")
-     res.clearCookie("jwt")
-     return res.redirect("/account/login")
-    }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
-    next()
-   })
- } else {
-  next()
- }
-}
-
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req,res,next)).catch(next)
-
-module.exports = Util
-

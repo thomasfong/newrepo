@@ -1,16 +1,8 @@
-<h1>Error <%= title %></h1>
-<p class="error-message"><%= message %></p>
-<p>Please try again or contact support if the problem persists.</p>
-<a href="/" class="home-link">Return to Home</a>
-<img src="/images/site/404.png" alt="404 Error">
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
 
-<!-- <% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-    res.erdirect('/')
-} %>
-
-<%- message %>
-
-<a href="/" class="home-link">Return to Home</a>
-<img src="/images/site/404.png" alt="404 Error">  -->
+    
+   <%-message %>

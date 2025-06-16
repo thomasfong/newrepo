@@ -150,18 +150,24 @@
   .content{
    margin-top: 2rem;
    background-color: var(--color-primary-variant);
+   height: 230px;
+   width: 250px;
+  }
+
+  div.content img {
+    padding-left: 20px;
+    height: 150px;
+    width: 180px;
   }
   .content img,p{
     display: block;
-    margin: 20px 30px;
+    margin: 40px 30px;
     padding: 1.5rem;
   }
   .content p a{
-    color: var(--color-white);
+    color: var(--text-color);
   }
   .hero{
-    /* background-color: var(--color-bg);
-    padding: 2rem; */
     background-color: #ffffff;
     position: relative;
     display: flex;
@@ -169,6 +175,10 @@
     align-items: center;
     width: 100%;
     max-width: 100%;
+  }
+
+  footer {
+    margin-top: 80px;
   }
   
   .copyright{

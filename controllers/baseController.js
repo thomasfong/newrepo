@@ -5,6 +5,11 @@ const baseController ={};
 async function buildHome(req, res, next) {
   try {
     let nav = await utilities.getNav(); // Fetch navigation data
+
+    // notice messages
+    req.flash("notice", "This is a flash message.")
+  
+
     res.render("index", {
       title: "Home",
       imagePath: "/images/site/own_today.png", // Main DeLorean image

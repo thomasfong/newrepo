@@ -1,69 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Management</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/inventory.css">
-</head>
-<body>
-    <%- include('../partials/header') %>
-    
-    <main class="container">
-        <% if (messages.error) { %>
-            <div class="alert alert-danger">
-                <%= messages.error %>
-            </div>
-        <% } %>
-        
-        <% if (messages.success) { %>
-            <div class="alert alert-success">
-                <%= messages.success %>
-            </div>
-        <% } %>
-
-        <!-- Account Greeting and Management Links -->
-        <% if (accountData) { %>
-            <h2>Welcome <%= accountData.account_firstname %></h2>
-            
-            <% if (accountData.account_type === 'Employee' || accountData.account_type === 'Admin') { %>
-                <h3>Inventory Management</h3>
-                <p><a href="/inv/" class="btn btn-secondary">Manage Inventory</a></p>
-            <% } %>
-            
-            <!-- Update Account Link for All Users -->
-            <div class="account-actions">
-                <a href="/account/update/<%= accountData.account_id %>" class="btn btn-primary">Update Account Information</a>
-            </div>
-        <% } %>
-
-        <h1>Inventory Management</h1>
-        
-        <div class="management-actions">
-            <a href="/inv/add-classification" class="btn btn-primary">Add New Classification</a>
-            <a href="/inv/add-inventory" class="btn btn-primary">Add New Vehicle</a>
-        </div>
-
-        <h2>Manage Inventory</h2>
-        <p>Select a classification from the list to view inventory items:</p>
-        
-        <%- classificationSelect %>
-        
-        <table id="inventoryDisplay" class="inventory-table">
-            <!-- Inventory items will be inserted here by JavaScript -->
-        </table>
-        
-        <noscript>
-            <div class="alert alert-warning">
-                JavaScript must be enabled to use this page.
-            </div>
-        </noscript>
-
-    </main>
-
-    <%- include('../partials/footer') %>
-    
-    <script src="/js/inventory.js"></script>
-</body>
-</html>
+<main>
+    <h1>Account Management</h1>
+    <% if (messages.notice) { %>
+      <p class="notice"><%- messages.notice %></p>
+    <% } %>
+    <% if (errors) { %>
+      <ul class="errors">
+        <% errors.forEach(error => { %>
+          <li><%- error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <div class="management">
+      <p>Welcome, <%- account_firstname %>! you have logged in Successfully.</p>
+      <p>Email: <%-account_email%></p>
+      <p>Account_type: <%-account_type%></p>
+      <p>we are here to learn database for development in 2025 so <br> your welcome to join in our team</p>
+      <a href="/account/update/<%= accountData.account_id %>" title="Click to update your account information">Edit Account Information</a>
+     <% if(accountData.account_type != 'Client'){ %>
+   <h3>Inventory Management</h3>
+    <p><a href="/inv/" target="_blank">Manage Inventory</a></p> 
+   <% } %>
+    </div>
+   
+  </main>

@@ -1,161 +1,96 @@
-const pool = require('../database/');
-const bcrypt = require('bcryptjs');
+const pool =require("../database")
+
 
 /* *****************************
 *   Register new account
 * *************************** */
-async function registerAccount(account_firstname, account_lastname, account_email, account_password) {
+async function registerAccount(account_firstname, account_lastname, account_email, account_password){
+    try {
+      const sql = "INSERT INTO account (account_firstname, account_lastname, account_email, account_password, account_type) VALUES ($1, $2, $3, $4, 'Client') RETURNING *"
+      return await pool.query(sql, [account_firstname, account_lastname, account_email, account_password])
+    } catch (error) {
+      return error.message
+    }
+  }
+
+  /* **********************
+ *   Check for existing email
+ * ********************* */
+async function checkExistingEmail(account_email){
   try {
-    const hashedPassword = await bcrypt.hash(account_password, 10);
-    const sql = `
-      INSERT INTO account (
-        account_firstname, 
-        account_lastname, 
-        account_email, 
-        account_password, 
-        account_type
-      ) VALUES ($1, $2, $3, $4, 'Client') 
-      RETURNING account_id, account_firstname, account_lastname, account_email, account_type
-    `;
-    const result = await pool.query(sql, [
-      account_firstname, 
-      account_lastname, 
-      account_email, 
-      hashedPassword
-    ]);
-    return result.rows[0];
+    const sql = "SELECT * FROM account WHERE account_email = $1"
+    const email = await pool.query(sql, [account_email])
+    return email.rowCount
   } catch (error) {
-    console.error('Registration error:', error);
-    throw new Error('Registration failed');
+    return error.message
+  }
+}
+/* *****************************
+* Return account data using email address
+* ***************************** */
+async function getAccountByEmail (account_email) {
+  try {
+    const result = await pool.query(
+      'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1',
+      [account_email])
+    return result.rows[0]
+  } catch (error) {
+    return new Error("No matching email found")
   }
 }
 
-/* **********************
- *   Check for existing email
- * ********************* */
-async function checkExistingEmail(account_email) {
+
+/* *****************************
+ *  Return account using account_id
+ *  Unit 5, Assignment 5, Task 5
+ * ***************************** */
+async function getAccountById (account_id) {
   try {
-    const sql = "SELECT account_id FROM account WHERE account_email = $1";
-    const result = await pool.query(sql, [account_email]);
-    return result.rowCount > 0;
+    const res = await pool.query(
+      'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_id = $1',
+      [account_id]
+    )
+    return res.rows[0]
   } catch (error) {
-    console.error('Email check error:', error);
-    throw new Error('Could not check email existence');
+    throw new Error('Query failed.')
   }
 }
 
 /* *****************************
-* Return account data using email address
-* ***************************** */
-async function getAccountByEmail(account_email) {
-  try {
-    const sql = `
-      SELECT 
-        account_id, 
-        account_firstname, 
-        account_lastname, 
-        account_email, 
-        account_type, 
-        account_password 
-      FROM account 
-      WHERE account_email = $1
-    `;
-    const result = await pool.query(sql, [account_email]);
-    if (result.rowCount === 0) {
-      return null;
-    }
-    return result.rows[0];
-  } catch (error) {
-    console.error('Get account by email error:', error);
-    throw new Error('Could not retrieve account');
-  }
-}
-
-/* **********************
- *   Get account by ID
- * ********************* */
-async function getAccountById(account_id) {
-  try {
-    const sql = `
-      SELECT 
-        account_id, 
-        account_firstname, 
-        account_lastname, 
-        account_email, 
-        account_type 
-      FROM account 
-      WHERE account_id = $1
-    `;
-    const result = await pool.query(sql, [account_id]);
-    if (result.rowCount === 0) {
-      return null;
-    }
-    return result.rows[0];
-  } catch (error) {
-    console.error('Get account by ID error:', error);
-    throw new Error('Could not retrieve account');
-  }
-}
-
-/* **********************
- *   Update account details
- * ********************* */
+ *  Update account information - NOT password
+ *  Unit 5, Assignment 5, Task 5
+ * ***************************** */
 async function updateAccount(
-  account_id,
   account_firstname,
   account_lastname,
-  account_email
+  account_email,
+  account_id
 ) {
   try {
-    const sql = `
-      UPDATE account 
-      SET 
-        account_firstname = $1,
-        account_lastname = $2,
-        account_email = $3,
-        account_updated = NOW()
-      WHERE account_id = $4
-      RETURNING account_id, account_firstname, account_lastname, account_email, account_type
-    `;
-    const result = await pool.query(sql, [
-      account_firstname,
-      account_lastname,
-      account_email,
-      account_id
-    ]);
-    return result.rows[0];
+    const res = await pool.query(
+      "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *",
+      [account_firstname, account_lastname, account_email, account_id]
+    )
+    return res.rows[0]
   } catch (error) {
-    console.error('Update account error:', error);
-    throw new Error('Could not update account');
+    throw new Error("Query failed.")
   }
 }
 
-/* **********************
- *   Change account password
- * ********************* */
-async function changePassword(account_id, newPassword) {
+/* *****************************
+ *  Update account password
+ *  Unit 5, Assignment 5, Task 5
+ * ***************************** */
+async function updatePassword(hashedPassword, account_id) {
   try {
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    const sql = `
-      UPDATE account 
-      SET 
-        account_password = $1,
-        account_updated = NOW()
-      WHERE account_id = $2
-    `;
-    await pool.query(sql, [hashedPassword, account_id]);
-    return true;
+    const res = await pool.query(
+      "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *",
+      [hashedPassword, account_id]
+    )
+    return res.rows[0]
   } catch (error) {
-    console.error('Change password error:', error);
-    throw new Error('Could not change password');
+    throw new Error("Query failed.")
   }
 }
 
-module.exports = {
-  registerAccount,
-  checkExistingEmail,
-  getAccountByEmail,
-  getAccountById,
-  updateAccount,
-  changePassword
-};
+  module.exports ={registerAccount,checkExistingEmail,getAccountByEmail,getAccountById,updateAccount,updatePassword}

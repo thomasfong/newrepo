@@ -1,34 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> | Vehicle Inventory Management</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <%- include('../partials/header') %>
+
+<main>
+<%# Unit 4, Select Inv Item activity %>
+<% if (title) {%>
+  <h1><%= title %></h1>
+  <%} else {res.redirect('/')} %>
+  
+  <%- messages() %>
+  
+  
+  <% if (errors) { %>
+  <ul class="message warning">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <%  }) %>
+  </ul>
+  <% } %>
+  <ul class="martin">
+    <li><a href="/inv/newClassification/">Add New Classification</a></li>
+    <li><a href="/inv/newVehicle/">Add New Inventory Item</a></li>
+  </ul>
+  <div class="official">
+    <h2>Manage Inventory</h2>
+    <p>Select a classification from the list to see the items belonging to the classification.</p>
+    <div class="class">
+      <%- classificationSelect %>
+    </div>
     
-    <main class="management-container">
-        <h1><%= title %></h1>
-        
-        <%- messages() %>
-
-        <div class="management-actions">
-            <div class="action-card">
-                <h2>Classification Management</h2>
-                <p>Add new vehicle classifications to the system</p>
-                <a href="/inv/add-classification" class="btn btn-primary">Add Classification</a>
-            </div>
-
-            <div class="action-card">
-                <h2>Inventory Management</h2>
-                <p>Add new vehicles to the inventory</p>
-                <a href="/inv/add-inventory" class="btn btn-primary">Add Vehicle</a>
-            </div>
-        </div>
-    </main>
-
-    <%- include('../partials/footer') %>
-</body>
-</html>
+    <table id="inventoryDisplay"></table>
+    <noscript>JavaScript must be enabled to use this page.</noscript>
+  </div>
+ 
+</main>
+<script src="../../js/inventory.js"></script>

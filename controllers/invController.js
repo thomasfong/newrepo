@@ -63,7 +63,7 @@ invCont.throwError = async function (req, res) {
 invCont.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav()
   const classificationSelect = await utilities.buildClassificationList()
-  res.render("inventory/management", {
+  res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
     errors: null,

@@ -1,62 +1,135 @@
-<%- include('../../layouts/header') -%>
 
 <main>
+<%# Unit 4, Assignment 4, Task 2 %>
+<% if (title) {%>
   <h1><%= title %></h1>
+  <%} else {res.redirect('/')} %>
   
   <%- messages() %>
   
   <% if (errors) { %>
-    <div class="message warning">
-      <ul>
-        <% errors.forEach(error => { %>
-          <li><%= error.msg %></li>
-        <% }) %>
-      </ul>
-    </div>
+  <ul class="message warning">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <%  }) %>
+  </ul>
   <% } %>
-
-  <form action="/inv/addInventory" method="post" class="form">
-    <div class="form-group">
-      <label for="classification_id">Classification:</label>
+  <form action="/inv/addInventory" method="post" class="inventory-form" class="form">
+    <div class="form-group new-form">
+      <label for="classificationList">Classification:</label>
       <%- classificationSelect %>
-      <% if (errors && errors.find(e => e.param === 'classification_id')) { %>
-        <span class="error-message"><%= errors.find(e => e.param === 'classification_id').msg %></span>
-      <% } %>
     </div>
-
-    <!-- Vehicle Details Group -->
-    <fieldset class="form-fieldset">
-      <legend>Vehicle Details</legend>
-      
-      <div class="form-group">
-        <label for="inv_make">Make:</label>
-        <input type="text" id="inv_make" name="inv_make" required
-               value="<%= inv_make || '' %>">
-      </div>
-      
-      <!-- Add all other vehicle fields similarly -->
-      
-    </fieldset>
-
-    <!-- Media Group -->
-    <fieldset class="form-fieldset">
-      <legend>Media</legend>
-      
-      <div class="form-group">
-        <label for="inv_image">Image Path:</label>
-        <input type="text" id="inv_image" name="inv_image" required
-               value="<%= inv_image || '/images/vehicles/no-image.png' %>">
-      </div>
-      
-      <!-- Thumbnail field -->
-      
-    </fieldset>
-
-    <div class="form-buttons">
-      <button type="submit" class="btn btn-primary">Add Inventory</button>
-      <a href="/inv/" class="btn btn-secondary">Cancel</a>
+    <div class="form-group">
+      <label for="inv_make">Make:</label>
+      <input
+        type="text"
+        id="inv_make"
+        name="inv_make"
+        required
+        placeholder="Enter make"
+        value="<%= locals.inv_make || '' %>"
+        aria-required="true"
+      >
     </div>
+    <div class="form-group">
+      <label for="inv_model">Model:</label>
+      <input
+        type="text"
+        id="inv_model"
+        name="inv_model"
+        required
+        placeholder="Enter model"
+        value="<%= locals.inv_model || '' %>"
+        aria-required="true"
+      >
+    </div>
+    <div class="form-group">
+      <label for="inv_description">Description:</label>
+      <textarea
+        id="inv_description"
+        name="inv_description"
+        required
+        placeholder="Enter description"
+        aria-required="true"
+      ><%= locals.inv_description || '' %></textarea>
+    </div>
+    <div class="form-group">
+      <label for="inv_image">Image Path:</label>
+      <input
+        type="text"
+        id="inv_image"
+        name="inv_image"
+        required
+        placeholder="/images/vehicles/no-image.png"
+        value="<%= locals.inv_image || '/images/vehicles/no-image.png' %>"
+        aria-required="true"
+      >
+    </div>
+    <div class="form-group">
+      <label for="inv_thumbnail">Thumbnail Path:</label>
+      <input
+        type="text"
+        id="inv_thumbnail"
+        name="inv_thumbnail"
+        required
+        placeholder="/images/vehicles/no-image-tn.png"
+        value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"
+        aria-required="true"
+      >
+    </div>
+    <div class="form-group">
+      <label for="inv_price">Price:</label>
+      <input
+        type="number"
+        id="inv_price"
+        name="inv_price"
+        required
+        min="0"
+        step="0.01"
+        placeholder="Enter price"
+        value="<%= locals.inv_price || '' %>"
+        aria-required="true"
+      >
+    </div>
+    <div class="form-group">
+      <label for="inv_year">Year:</label>
+      <input
+        type="number"
+        id="inv_year"
+        name="inv_year"
+        required
+        min="1900"
+        max="<%= new Date().getFullYear() + 1 %>"
+        placeholder="Enter year"
+        value="<%= locals.inv_year || '' %>"
+        aria-required="true"
+      >
+    </div>
+    <div class="form-group">
+      <label for="inv_miles">Miles:</label>
+      <input
+        type="number"
+        id="inv_miles"
+        name="inv_miles"
+        required
+        min="0"
+        placeholder="Enter miles"
+        value="<%= locals.inv_miles || '' %>"
+        aria-required="true"
+      >
+    </div>
+    <div class="form-group">
+      <label for="inv_color">Color:</label>
+      <input
+        type="text"
+        id="inv_color"
+        name="inv_color"
+        required
+        placeholder="Enter color"
+        value="<%= locals.inv_color || '' %>"
+        aria-required="true"
+      >
+    </div>
+    <button type="submit" class="submit---btn">Add Inventory</button>
   </form>
 </main>
-
-<%- include('../../layouts/footer') -%>

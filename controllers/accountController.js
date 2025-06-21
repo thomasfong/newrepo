@@ -93,7 +93,8 @@ async function registerAccount(req, res) {
       res.status(501).render("account/register", {
         title: "Registration",
         nav,
-        errors: null, // Remove the undefined error object
+        // changes i added this at 02/06/2025.
+        errors: [{ msg: error.message }],
         account_firstname: req.body.account_firstname || "",
         account_lastname: req.body.account_lastname || "",
         account_email: req.body.account_email || "",

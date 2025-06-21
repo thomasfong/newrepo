@@ -1,23 +1,34 @@
-<%- include('../../layouts/header') -%>
 
-<main class="management-view">
-  <h1>Vehicle Management</h1>
+<main>
+<%# Unit 4, Select Inv Item activity %>
+<% if (title) {%>
+  <h1><%= title %></h1>
+  <%} else {res.redirect('/')} %>
   
   <%- messages() %>
-
-  <div class="management-actions">
-    <div class="action-card">
-      <h2>Classifications</h2>
-      <p>Add a new vehicle classification</p>
-      <a href="/inv/newClassification" class="btn">Add Classification</a>
+  
+  
+  <% if (errors) { %>
+  <ul class="message warning">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <%  }) %>
+  </ul>
+  <% } %>
+  <ul class="martin">
+    <li><a href="/inv/newClassification/">Add New Classification</a></li>
+    <li><a href="/inv/newVehicle/">Add New Inventory Item</a></li>
+  </ul>
+  <div class="official">
+    <h2>Manage Inventory</h2>
+    <p>Select a classification from the list to see the items belonging to the classification.</p>
+    <div class="class">
+      <%- classificationSelect %>
     </div>
-
-    <div class="action-card">
-      <h2>Inventory</h2>
-      <p>Add a new vehicle to inventory</p>
-      <a href="/inv/newVehicle" class="btn">Add Inventory</a>
-    </div>
+    
+    <table id="inventoryDisplay"></table>
+    <noscript>JavaScript must be enabled to use this page.</noscript>
   </div>
+ 
 </main>
-
-<%- include('../../layouts/footer') -%>
+<script src="../../js/inventory.js"></script>

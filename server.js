@@ -71,8 +71,7 @@ app.use(express.static('public'));
 app.use(static);
 
 // Inventory routes
-// app.use("/inv", inventoryRoute);
-app.use("/inv", require("./routes/inventoryRoute"));
+app.use("/inv", inventoryRoute);
 
 
 // account route

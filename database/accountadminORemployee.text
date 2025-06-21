@@ -16,11 +16,6 @@ account_lastname: User
 account_email: manager@340.edu
 account_password: I@mAnAdm!n1strat0r
 
-account_firstname: King
-account_lastname: Employee
-account_email: king@340.edu
-account_password: I@mAnEmpl0y33
-
 account_firstname: king
 account_lastname: fong
 account_email: king123@gmail.com

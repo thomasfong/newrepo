@@ -1,37 +1,43 @@
+<%- include('../../layouts/header') -%>
 
 <main>
-  <%# Unit 4, Assignment 4, Task 3 %>
-<% if (title) {%>
-  <h1>
-    <%= title %>
-  </h1>
-  <%} else {res.redirect('/')} %>
+  <h1><%= title %></h1>
   
   <%- messages() %>
   
   <% if (errors) { %>
-  <ul class="message warning">
-    <% errors.array().forEach(error => { %>
-    <li><%= error.msg %></li>
-    <%  }) %>
-  </ul>
+    <div class="message warning">
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    </div>
   <% } %>
-  <form action="/inv/addClassification" method="post" class="classification-form" class="form">
+
+  <form action="/inv/addClassification" method="post" class="form">
     <div class="form-group">
       <label for="classification_name">Classification Name:</label>
       <input
         type="text"
         id="classification_name"
         name="classification_name"
+        class="<%= errors && errors.find(e => e.param === 'classification_name') ? 'input-error' : '' %>"
         required
-        pattern="[A-Za-z]+"
-        placeholder="Enter classification name"
-        value="<%= locals.classification_name || '' %>"
-        aria-required="true"
-        title="Only letters, no spaces or special characters"
+        pattern="^[A-Za-z]+$"
+        title="Only letters allowed, no spaces or special characters"
+        value="<%= classification_name || '' %>"
       >
+      <% if (errors && errors.find(e => e.param === 'classification_name')) { %>
+        <span class="error-message"><%= errors.find(e => e.param === 'classification_name').msg %></span>
+      <% } %>
     </div>
-    <button type="submit" class="submit---btn">Add Classification</button>
-  </form>
 
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-primary">Add Classification</button>
+      <a href="/inv/" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
 </main>
+
+<%- include('../../layouts/footer') -%>

@@ -1,4 +1,4 @@
-
+<!-- 
 <main>
 <%# Unit 4, Select Inv Item activity %>
 <% if (title) {%>
@@ -31,4 +31,48 @@
   </div>
  
 </main>
-<script src="../../js/inventory.js"></script>
+<script src="../../js/inventory.js"></script> -->
+
+
+<%- include('../partials/_header') %>
+<%- include('../partials/_navigation') %>
+
+<main class="management-view">
+  <h1><%= title %></h1>
+  
+  <%- messages() %>
+  
+  <% if (errors) { %>
+  <ul class="message warning">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+  <% } %>
+
+  <div class="management-actions">
+    <div class="action-card">
+      <h2>Classification Management</h2>
+      <a href="/inv/newClassification" class="btn">Add New Classification</a>
+    </div>
+    
+    <div class="action-card">
+      <h2>Inventory Management</h2>
+      <a href="/inv/newVehicle" class="btn">Add New Vehicle</a>
+    </div>
+  </div>
+
+  <div class="inventory-browser">
+    <h2>Browse Inventory</h2>
+    <p>Select a classification to view inventory items:</p>
+    <%- classificationSelect %>
+    <table id="inventoryDisplay"></table>
+    <noscript>
+      <p class="notice">JavaScript must be enabled to use this feature.</p>
+    </noscript>
+  </div>
+</main>
+
+<script src="/js/inventory.js"></script>
+
+<%- include('../partials/_footer') %>

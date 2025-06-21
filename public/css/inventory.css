@@ -5,6 +5,45 @@
     gap: 15px;
 }
 
+/* Add these styles to your inventory.css */
+.management-view {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.management-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.action-card {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-card h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.inventory-browser {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.notice {
+  color: #dc3545;
+  font-style: italic;
+}
+
 .inventory-table {
     width: 100%;
     border-collapse: collapse;
